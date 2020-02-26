@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,7 +32,7 @@ public class FragmentTeams extends Fragment {
 
     ArrayList<TeamModel> teamNameFromRetrofit;
     RecyclerView recyclerView;
-    TeamRecyclerAdapter teamRecyclerAdapter;
+    public static TeamRecyclerAdapter teamRecyclerAdapter;
     String itemID;
     public static String teamItemId;
     public static String teamItemName;
@@ -96,7 +95,7 @@ public class FragmentTeams extends Fragment {
                 teamRecyclerAdapter.setOnClickListener(new TeamRecyclerAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-                        Toast.makeText(getContext(),"Pozisyon: "+position,Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(),"Pozisyon: "+position,Toast.LENGTH_SHORT).show();
                         System.out.println(teamNameFromRetrofit.get(position).strTeam);
 
                         FragmentManager fragmentManager = getFragmentManager();

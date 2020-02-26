@@ -7,6 +7,6 @@
         android:id="@+id/fragment_sports_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="25dp"/>
+        android:paddingBottom="40dp"/>
 
 </LinearLayout>

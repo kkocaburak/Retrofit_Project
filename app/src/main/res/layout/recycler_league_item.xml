@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:layout_margin="10dp"
-    android:paddingBottom="15dp">
+    android:paddingBottom="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,24 +18,23 @@
         android:orientation="horizontal"
         >
 
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="left|center"
-            android:layout_marginLeft="25dp"
-            android:src="@drawable/trophy"></ImageView>
+<!--        <ImageView-->
+<!--            android:layout_width="60dp"-->
+<!--            android:layout_height="60dp"-->
+<!--            android:layout_gravity="left|center"-->
+<!--            android:layout_marginLeft="25dp"-->
+<!--            android:src="@drawable/trophy"></ImageView>-->
 
         <TextView
-            android:id="@+id/recycler_view_textView"
-            android:layout_width="180dp"
+            android:id="@+id/recycler_sport_textView"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="50dp"
-            android:gravity="left|center"
+            android:gravity="center"
             android:text="League"
             android:fontFamily="@font/madetommymedium"
             android:textColor="#FEE715"
-            android:textSize="24sp" />
+            android:textSize="30sp" />
 
 
 

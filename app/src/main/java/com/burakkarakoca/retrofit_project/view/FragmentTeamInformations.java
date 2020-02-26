@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.burakkarakoca.retrofit_project.R;
 import com.burakkarakoca.retrofit_project.adapter.TeamInformationRecyclerAdapter;
+import com.burakkarakoca.retrofit_project.model.SportModel;
 import com.burakkarakoca.retrofit_project.model.Team;
 import com.burakkarakoca.retrofit_project.model.TeamModel;
 import com.burakkarakoca.retrofit_project.service.MainAPI;
@@ -29,8 +32,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class FragmentTeamInformations extends Fragment {
 
     ArrayList<TeamModel> teamNameFromRetrofit;
+
     RecyclerView recyclerView;
-    TeamInformationRecyclerAdapter teamInformationRecyclerAdapter;
+    public static TeamInformationRecyclerAdapter teamInformationRecyclerAdapter;
     String itemName, itemId;
 
     ArrayList<TeamModel> Takım = new ArrayList<>();
@@ -106,17 +110,8 @@ public class FragmentTeamInformations extends Fragment {
 
     }
 
-    public void relativeClicked(View view){
-        System.out.println("Relative Clicked");
-    }
 
-    public void scrollClicked(View view){
-        System.out.println("Scroll Clicked");
-    }
 
-    public void constraintClicked(View view){
-        System.out.println("Constraint Clicked");
-    }
 
 
 }

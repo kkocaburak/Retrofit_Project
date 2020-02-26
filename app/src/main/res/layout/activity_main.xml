@@ -3,9 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@drawable/background_d"
+    android:background="@drawable/background_c"
     android:layout_height="match_parent"
     tools:context=".view.MainActivity">
+
+    <include
+        layout="@layout/app_bar"/>
 
     <TextView
         android:id="@+id/app_main_text"
@@ -18,8 +21,9 @@
         android:layout_marginRight="20dp"
         android:paddingRight="20dp"
         android:paddingLeft="20dp"
+        android:alpha="0"
         android:textColor="#F22F08"
-        android:background="#212624"
+        android:background="@drawable/custom_button_3"
         android:fontFamily="@font/madetommymedium"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"

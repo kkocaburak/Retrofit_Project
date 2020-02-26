@@ -3,6 +3,8 @@ package com.burakkarakoca.retrofit_project.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,10 +14,13 @@ import com.burakkarakoca.retrofit_project.R;
 import com.burakkarakoca.retrofit_project.model.LeagueModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class LeagueRecyclerAdapter extends RecyclerView.Adapter<LeagueRecyclerAdapter.RowHolder> {
+public class LeagueRecyclerAdapter extends RecyclerView.Adapter<LeagueRecyclerAdapter.RowHolder> implements Filterable {
 
     private ArrayList<LeagueModel> leagueName;
+    private ArrayList<LeagueModel> leagueNameFull;
+
     private OnItemClickListener mListener;
 
     public interface OnItemClickListener{
@@ -28,6 +33,7 @@ public class LeagueRecyclerAdapter extends RecyclerView.Adapter<LeagueRecyclerAd
 
     public LeagueRecyclerAdapter(ArrayList<LeagueModel> leagueName) {
         this.leagueName = leagueName;
+        leagueNameFull = new ArrayList<>(leagueName);
     }
 
     // Oluşturulunca yapılacaklar
@@ -79,11 +85,52 @@ public class LeagueRecyclerAdapter extends RecyclerView.Adapter<LeagueRecyclerAd
 
         public void bind(LeagueModel leagueModel, Integer position){
 
-            textView = itemView.findViewById(R.id.recycler_view_textView);
+            textView = itemView.findViewById(R.id.recycler_sport_textView);
             textView.setText(leagueModel.strLeague);
 
         }
 
     }
+
+    @Override
+    public Filter getFilter() {
+        return leagueNameFilter;
+    }
+
+    private Filter leagueNameFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            List<LeagueModel> filteredList = new ArrayList<>();
+
+            if(constraint == null || constraint.length() == 0){
+                filteredList.addAll(leagueNameFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for(LeagueModel item : leagueNameFull){
+                    if(item.getStrLeague().toLowerCase().contains(filterPattern)){
+                        filteredList.add(item);
+                    }
+                }
+
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+
+            leagueName.clear();
+            leagueName.addAll((List) results.values);
+            notifyDataSetChanged();
+
+        }
+
+    };
 
 }

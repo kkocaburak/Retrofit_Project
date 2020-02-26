@@ -3,6 +3,8 @@ package com.burakkarakoca.retrofit_project.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,10 +16,13 @@ import com.burakkarakoca.retrofit_project.model.TeamModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class TeamRecyclerAdapter extends RecyclerView.Adapter<TeamRecyclerAdapter.RowHolder> {
+public class TeamRecyclerAdapter extends RecyclerView.Adapter<TeamRecyclerAdapter.RowHolder> implements Filterable {
 
     private ArrayList<TeamModel> teamName;
+    private ArrayList<TeamModel> teamNameFull;
+
     private OnItemClickListener mListener;
 
     public interface OnItemClickListener{
@@ -30,6 +35,7 @@ public class TeamRecyclerAdapter extends RecyclerView.Adapter<TeamRecyclerAdapte
 
     public TeamRecyclerAdapter(ArrayList<TeamModel> teamName) {
         this.teamName = teamName;
+        teamNameFull = new ArrayList<>(teamName);
     }
 
     // Oluşturulunca yapılacaklar
@@ -92,6 +98,47 @@ public class TeamRecyclerAdapter extends RecyclerView.Adapter<TeamRecyclerAdapte
         }
 
     }
+
+    @Override
+    public Filter getFilter() {
+        return teamNameFilter;
+    }
+
+    private Filter teamNameFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            List<TeamModel> filteredList = new ArrayList<>();
+
+            if(constraint == null || constraint.length() == 0){
+                filteredList.addAll(teamNameFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for(TeamModel item : teamNameFull){
+                    if(item.getStrTeam().toLowerCase().contains(filterPattern)){
+                        filteredList.add(item);
+                    }
+                }
+
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+
+            teamName.clear();
+            teamName.addAll((List) results.values);
+            notifyDataSetChanged();
+
+        }
+
+    };
 
 
 

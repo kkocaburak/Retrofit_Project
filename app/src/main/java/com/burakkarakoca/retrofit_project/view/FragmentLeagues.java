@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,7 +31,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class FragmentLeagues extends Fragment {
 
     RecyclerView recyclerView;
-    LeagueRecyclerAdapter leagueRecyclerAdapter;
+    public static LeagueRecyclerAdapter leagueRecyclerAdapter;
 
     String itemName;
 
@@ -40,6 +39,7 @@ public class FragmentLeagues extends Fragment {
     ArrayList<LeagueModel> leagueNameFromRetrofit;
 
     public static String leagueString;
+
 
 
     public FragmentLeagues() {
@@ -111,7 +111,7 @@ public class FragmentLeagues extends Fragment {
                 leagueRecyclerAdapter.setOnClickListener(new LeagueRecyclerAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-                        Toast.makeText(getContext(),"Pozisyon: "+position,Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(),"Pozisyon: "+position,Toast.LENGTH_SHORT).show();
                         System.out.println(Ligler.get(position).strSport);
                         // #### sportNameFromRetrofit.get(position).strSport = İstenen spor ismi ####
 

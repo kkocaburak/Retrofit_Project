@@ -3,6 +3,9 @@ package com.burakkarakoca.retrofit_project.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -10,12 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.burakkarakoca.retrofit_project.R;
 import com.burakkarakoca.retrofit_project.model.SportModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.RowHolder> {
+public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.RowHolder> implements Filterable {
 
     private ArrayList<SportModel> sportName;
+    private ArrayList<SportModel> sportNameFull;
+
     private OnItemClickListener mListener;
 
     public interface OnItemClickListener{
@@ -28,6 +35,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
     public MainRecyclerAdapter(ArrayList<SportModel> sportName) {
         this.sportName = sportName;
+        sportNameFull = new ArrayList<>(sportName);
     }
 
     // Oluşturulunca yapılacaklar
@@ -59,6 +67,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     public class RowHolder extends RecyclerView.ViewHolder{
 
         TextView textView;
+        ImageView imageView;
 
         public RowHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
@@ -80,14 +89,57 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
         public void bind(SportModel sportModel, Integer position){
 
-            textView = itemView.findViewById(R.id.recycler_view_textView);
+            textView = itemView.findViewById(R.id.recycler_sport_textView);
+            imageView = itemView.findViewById(R.id.recycler_sport_imageview);
 
             textView.setText(sportModel.strSport);
+            Picasso.get().load(sportModel.strSportThumb).into(imageView);
 
 
         }
 
     }
+
+    @Override
+    public Filter getFilter() {
+        return sportNameFilter;
+    }
+
+    private Filter sportNameFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            List<SportModel> filteredList = new ArrayList<>();
+
+            if(constraint == null || constraint.length() == 0){
+                filteredList.addAll(sportNameFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for(SportModel item : sportNameFull){
+                    if(item.getStrSport().toLowerCase().contains(filterPattern)){
+                        filteredList.add(item);
+                    }
+                }
+
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+
+            sportName.clear();
+            sportName.addAll((List) results.values);
+            notifyDataSetChanged();
+
+        }
+
+    };
 
 
 

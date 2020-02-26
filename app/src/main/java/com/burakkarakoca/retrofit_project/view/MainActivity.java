@@ -1,9 +1,16 @@
 package com.burakkarakoca.retrofit_project.view;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -11,17 +18,25 @@ import com.burakkarakoca.retrofit_project.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    //MainRecyclerAdapter mainRecyclerAdapter;
     public static int fragmentAdded = -1;
     public FragmentManager fragmentManager;
     public FragmentTransaction fragmentTransaction;
     public FragmentSports sportFragment;
     public static TextView mainText;
 
+    private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        toolbar = findViewById(R.id.myToolBar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         firstFragment();
 
@@ -46,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         if(fragmentAdded == 0){
             super.onBackPressed();
         } else if(fragmentAdded == 1){
+            fragmentAdded--;
             fragmentAdded--;
             mainText.setText("Sport App");
             firstFragment();
@@ -86,4 +102,50 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.example_menu,menu);
+
+        MenuItem searchItem = menu.findItem(R.id.searchitem);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(fragmentAdded == 0){
+                    FragmentSports.mainRecyclerAdapter.getFilter().filter(newText);
+                } else if(fragmentAdded == 1){
+                    FragmentLeagues.leagueRecyclerAdapter.getFilter().filter(newText);
+                }else if(fragmentAdded == 2){
+                    FragmentTeams.teamRecyclerAdapter.getFilter().filter(newText);
+                }
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.searchitem:
+                Toast.makeText(getApplicationContext(),"search button",Toast.LENGTH_SHORT).show();
+                return true;
+            case android.R.id.home:
+                onBackPressed();
+            default:return super.onOptionsItemSelected(item);
+
+        }
+
+    }
+
 }

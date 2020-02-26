@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,14 +31,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class FragmentSports extends Fragment {
 
     ArrayList<SportModel> sportNameFromRetrofit;
+
     RecyclerView recyclerView;
-    MainRecyclerAdapter mainRecyclerAdapter;
+    public static MainRecyclerAdapter mainRecyclerAdapter;
     public static FragmentLeagues fragmentLeagues;
 
     public static String sportString;
 
     // #####################  Bu sayfalarda neden string ile get(), set() yapamıyorum?
-
 
     public FragmentSports() {
         // Required empty public constructor
@@ -93,7 +92,7 @@ public class FragmentSports extends Fragment {
                 mainRecyclerAdapter.setOnClickListener(new MainRecyclerAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-                        Toast.makeText(getContext(),"Pozisyon: "+position,Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(),"Pozisyon: "+position,Toast.LENGTH_SHORT).show();
                         System.out.println(sportNameFromRetrofit.get(position).strSport);
                         // #### sportNameFromRetrofit.get(position).strSport = İstenen spor ismi ####
                         fragmentLeagues = new FragmentLeagues();

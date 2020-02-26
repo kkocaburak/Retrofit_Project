@@ -17,10 +17,16 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class TeamInformationRecyclerAdapter extends RecyclerView.Adapter<TeamInformationRecyclerAdapter.RowHolder> {
+import me.relex.circleindicator.CircleIndicator;
+
+public class TeamInformationRecyclerAdapter extends RecyclerView.Adapter<TeamInformationRecyclerAdapter.RowHolder>{
 
     private ArrayList<TeamModel> teamName;
+
+
     private OnItemClickListener mListener;
+
+    String[] imageUrls;
 
     public interface OnItemClickListener{
         void onItemClick(int position);
@@ -92,24 +98,29 @@ public class TeamInformationRecyclerAdapter extends RecyclerView.Adapter<TeamInf
             teamImage = itemView.findViewById(R.id.recycler_team_teamImage_image);
 
             if(teamModel.strTeam != null && !teamModel.strTeam.isEmpty()){
-                teamNameText.setText("  "+teamModel.strTeam+"  ");
+                teamNameText.setText(teamModel.strTeam);
             } else{
                 teamNameText.setVisibility(View.GONE);
             }
 
-            if(teamModel.strAlternate != null && !teamModel.strAlternate.isEmpty()){
-                teamAlternativeNameText.setText("  "+teamModel.strAlternate+"  ");
+            if(teamModel.strAlternate != null && !teamModel.strAlternate.isEmpty() && teamModel.strTeam != teamModel.strAlternate){
+                teamAlternativeNameText.setText(teamModel.strAlternate);
             } else{
                 teamAlternativeNameText.setVisibility(View.GONE);
             }
 
 
             if(teamModel.intFormedYear != null){
-                teamFormedYearText.setText("  "+teamModel.intFormedYear+"  ");
+                teamFormedYearText.setText(""+teamModel.intFormedYear);
             } else{
                 teamFormedYearText.setVisibility(View.GONE);
             }
 
+            if(teamModel.strDescriptionEN != null && !teamModel.strDescriptionEN.isEmpty()){
+                teamDescriptionText.setText(teamModel.strDescriptionEN);
+            } else {
+                teamDescriptionText.setVisibility(View.GONE);
+            }
 
 //            if(teamModel.strStadium != null && !teamModel.strStadium.isEmpty()){
 //                teamStadiumNameText.setText("  "+teamModel.strStadium+"  ");
@@ -117,29 +128,48 @@ public class TeamInformationRecyclerAdapter extends RecyclerView.Adapter<TeamInf
 //                teamStadiumNameText.setVisibility(View.GONE);
 //            }
 
-            if(teamModel.strDescriptionEN != null && !teamModel.strDescriptionEN.isEmpty()){
-                teamDescriptionText.setText("  "+teamModel.strDescriptionEN+"  ");
-            } else {
-                teamDescriptionText.setVisibility(View.GONE);
+            Picasso.get().load(teamModel.strTeamBadge).into(teamImage);
+
+            ArrayList<String> mylist = new ArrayList<String>();
+
+            if(teamModel.strTeamFanart1 != null){
+                mylist.add(teamModel.strTeamFanart1);
+            }
+            if(teamModel.strTeamFanart2 != null){
+                mylist.add(teamModel.strTeamFanart2);
+            }
+            if(teamModel.strTeamFanart3 != null){
+                mylist.add(teamModel.strTeamFanart3);
+            }
+            if(teamModel.strTeamFanart4 != null){
+                mylist.add(teamModel.strTeamFanart4);
             }
 
-            Picasso.get().load(teamModel.strTeamBadge).into(teamImage);
+            ViewPager viewPager = itemView.findViewById(R.id.view_pager);
+//            TabLayout tabLayout = itemView.findViewById(R.id.tabDots);
+//            tabLayout.setupWithViewPager(viewPager, true);
+
+
+            if(mylist.size() <= 0){
+                viewPager.setVisibility(View.GONE);
+            } else{
+                imageUrls = new String[mylist.size()];
+
+                for(int i = 0; i<mylist.size(); i++){
+                    imageUrls[i] = mylist.get(i);
+                }
+
+                ViewPagerAdapter adapter = new ViewPagerAdapter(itemView.getContext(), imageUrls);
+                viewPager.setAdapter(adapter);
+                CircleIndicator indicator = itemView.findViewById(R.id.circle_indicator);
+                indicator.setViewPager(viewPager);
+
+            }
+
 
 
         }
 
-    }
-
-    public void relativeClicked(View view){
-        System.out.println("Relative Clicked");
-    }
-
-    public void scrollClicked(View view){
-        System.out.println("Scroll Clicked");
-    }
-
-    public void constraintClicked(View view){
-        System.out.println("Constraint Clicked");
     }
 
 
